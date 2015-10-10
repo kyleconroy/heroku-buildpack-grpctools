@@ -15,22 +15,21 @@ cd $BUILD_DIR
 curl -OLs https://github.com/kyleconroy/heroku-buildpack-grpc/releases/download/release-0_11/grpc.tar.gz
 
 # make a directory to untar (like unzip) the binary
-mkdir -p vendor/grpc
+mkdir -p usr/local/grpc
 
 # untar the binary to the directory we want
-tar -C vendor/grpc -xf grpc.tar.gz
+tar -C usr/local/grpc -xf grpc.tar.gz
 
 rm grpc.tar.gz
 
-DIR="$BUILD_DIR/vendor/grpc"
-
+DIR="$BUILD_DIR/usr/local/grpc"
 export PATH="$DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$DIR/lib:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$DIR/lib:$LIBRARY_PATH"
 export INCLUDE_PATH="$DIR/include:$INCLUDE_PATH"
+export CPATH="$INCLUDE_PATH"
+export CPPPATH="$INCLUDE_PATH"
 export PKG_CONFIG_PATH="$DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 #give environment to later buildpacks
-export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
-
-find .
+export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
