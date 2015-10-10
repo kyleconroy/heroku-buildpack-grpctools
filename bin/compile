@@ -1,14 +1,30 @@
 #!/usr/bin/env bash
-echo "-----&gt; Installing latest GRPC"
+echo "-----> Installing GRPC 0.11"
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-# change to the the BUILD_DIR ($1)
 cd $BUILD_DIR
 
-# install GRPC from source
-git clone https://github.com/grpc/grpc.git
-cd grpc
-git submodule update --init
-make install prefix=$CACHE_DIR
+# download the binary (-O) silently (-s)
+curl -OLs https://github.com/kyleconroy/heroku-buildpack-grpc/releases/download/release-0_11/grpc.tar.gz
+
+# make a directory to untar (like unzip) the binary
+mkdir -p vendor/grpc
+
+# untar the binary to the directory we want
+tar -C vendor/grpc -xvf grpc.tar.gz
+
+rm grpc.tar.gz
+
+$DIR = "/app/vendor/grpc"
+
+export PATH="$DIR/bin:$PATH"
+export LD_LIBRARY_PATH="$DIR/lib:$LD_LIBRARY_PATH"
+export LIBRARY_PATH="$DIR/lib:$LIBRARY_PATH"
+export INCLUDE_PATH="$DIR/include:$INCLUDE_PATH"
+export PKG_CONFIG_PATH="$DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+#give environment to later buildpacks
+export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
