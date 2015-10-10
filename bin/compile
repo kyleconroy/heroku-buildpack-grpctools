@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# fail fast
+set -e
+
 echo "-----> Installing GRPC 0.11"
 
 BUILD_DIR=$1
