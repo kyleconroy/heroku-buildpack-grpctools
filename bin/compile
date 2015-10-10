@@ -14,11 +14,11 @@ curl -OLs https://github.com/kyleconroy/heroku-buildpack-grpc/releases/download/
 mkdir -p vendor/grpc
 
 # untar the binary to the directory we want
-tar -C vendor/grpc -xvf grpc.tar.gz
+tar -C vendor/grpc -xqvf grpc.tar.gz
 
 rm grpc.tar.gz
 
-$DIR = "/app/vendor/grpc"
+DIR="/app/vendor/grpc"
 
 export PATH="$DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$DIR/lib:$LD_LIBRARY_PATH"
