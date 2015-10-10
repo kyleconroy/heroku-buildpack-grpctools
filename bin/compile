@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 echo "-----&gt; Installing latest GRPC"
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+
 # change to the the BUILD_DIR ($1)
-cd $1
+cd $BUILD_DIR
 
 # install GRPC from source
 git clone https://github.com/grpc/grpc.git
 cd grpc
 git submodule update --init
-make 
+make install prefix=$CACHE_DIR
