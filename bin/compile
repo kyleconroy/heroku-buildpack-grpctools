@@ -32,3 +32,5 @@ export PKG_CONFIG_PATH="$DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 #give environment to later buildpacks
 export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
+
+find .
