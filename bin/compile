@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+echo "-----&gt; Installing latest GRPC"
+# change to the the BUILD_DIR ($1)
+cd $1
+
+# install GRPC from source
+git clone https://github.com/grpc/grpc.git
+cd grpc
+git submodule update --init
+make 
