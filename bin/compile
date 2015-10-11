@@ -7,7 +7,7 @@ echo "-----> Installing GRPC 0.11"
 
 BUILD_DIR=$1
 CACHE_DIR=$2
-LP_DIR=`cd $(dirname $0); cd ..; pwd`
+ENV_DIR=$3
 
 cd $BUILD_DIR
 
