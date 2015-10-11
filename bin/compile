@@ -15,54 +15,11 @@ cd $BUILD_DIR
 curl -OLs https://github.com/kyleconroy/heroku-buildpack-grpc/releases/download/release-0_11/grpc-release-0_11.tar.gz
 
 # make a directory to untar (like unzip) the binary
-mkdir -p usr/local/grpc
+mkdir -p .heroku/vendor
 
 # untar the binary to the directory we want
-tar -C usr/local/grpc -xf grpc-release-0_11.tar.gz
+tar -C .heroku/vendor -xf grpc-release-0_11.tar.gz
 
 rm grpc-release-0_11.tar.gz
 
 echo "-----> Writing profile script"
-
-mkdir -p $BUILD_DIR/.profile.d
-cat <<EOF >$BUILD_DIR/.profile.d/grpc.sh
-export PATH="\$HOME/usr/local/grpc/bin:\$PATH"
-export LD_LIBRARY_PATH="\$HOME/usr/local/grpc/lib:\$LD_LIBRARY_PATH"
-export LIBRARY_PATH="\$HOME/usr/local/grpc/lib:\$LIBRARY_PATH"
-export INCLUDE_PATH="\$HOME/usr/local/grpc/include:\$INCLUDE_PATH"
-export CPATH="\$INCLUDE_PATH"
-export CPPPATH="\$INCLUDE_PATH"
-export PKG_CONFIG_PATH="\$HOME/usr/local/grpc/pkgconfig:\$PKG_CONFIG_PATH"
-EOF
-
-
-if [ -z "$LD_LIBRARY_PATH" ]; then
-    export LD_LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib"
-else
-    export LD_LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib:$LD_LIBRARY_PATH"
-fi
-
-if [ -z "$LIBRARY_PATH" ]; then
-    export LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib"
-else
-    export LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib:$LIBRARY_PATH"
-fi
-
-if [ -z "$INCLUDE_PATH" ]; then
-    export INCLUDE_PATH="$BUILD_DIR/usr/local/grpc/include"
-else
-    export INCLUDE_PATH="$BUILD_DIR/usr/local/grpc/include:$INCLUDE_PATH"
-fi
-
-if [ -z "$PKG_CONFIG_PATH" ]; then
-    export PKG_CONFIG_PATH="$BUILD_DIR/usr/local/grpc/pkgconfig"
-else
-    export PKG_CONFIG_PATH="$BUILD_DIR/usr/local/grpc/pkgconfig:$PKG_CONFIG_PATH"
-fi
-
-export PATH="$BUILD_DIR/usr/local/grpc/bin:$PATH"
-export CPATH="$INCLUDE_PATH"
-export CPPPATH="$INCLUDE_PATH"
-
-#give environment to later buildpacks
-export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
