@@ -21,5 +21,3 @@ mkdir -p .heroku/vendor
 tar -C .heroku/vendor -xf grpc-release-0_11.tar.gz
 
 rm grpc-release-0_11.tar.gz
-
-echo "-----> Writing profile script"
