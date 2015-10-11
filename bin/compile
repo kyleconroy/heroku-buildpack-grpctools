@@ -26,11 +26,11 @@ echo "-----> Writing profile script"
 
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/grpc.sh
-export PATH="\$HOME/usr/local/grpc/bin:$BUILD_DIR/usr/local/grpc/bin:\$PATH"
-export LD_LIBRARY_PATH="\$HOME/usr/local/grpc/lib:$BUILD_DIR/usr/local/grpc/lib:\$LD_LIBRARY_PATH"
-export LIBRARY_PATH="\$HOME/usr/local/grpc/lib:$BUILD_DIR/usr/local/grpc/lib:\$LIBRARY_PATH"
-export INCLUDE_PATH="\$HOME/usr/local/grpc/include:$BUILD_DIR/usr/local/grpc/include:\$INCLUDE_PATH"
+export PATH="\$HOME/usr/local/grpc/bin:\$PATH"
+export LD_LIBRARY_PATH="\$HOME/usr/local/grpc/lib:\$LD_LIBRARY_PATH"
+export LIBRARY_PATH="\$HOME/usr/local/grpc/lib:\$LIBRARY_PATH"
+export INCLUDE_PATH="\$HOME/usr/local/grpc/include:\$INCLUDE_PATH"
 export CPATH="\$INCLUDE_PATH"
 export CPPPATH="\$INCLUDE_PATH"
-export PKG_CONFIG_PATH="\$HOME/usr/local/grpc/lib/pkgconfig:$BUILD_DIR/usr/local/grpc/lib/pkgconfig:\$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="\$HOME/usr/local/grpc/pkgconfig:\$PKG_CONFIG_PATH"
 EOF
