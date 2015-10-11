@@ -1,23 +1,19 @@
 # Run these commands on a dyno to build the needed libs and binaries
-curl -LO https://github.com/grpc/grpc/archive/release-0_11_1.tar.gz
-curl -LO https://github.com/google/protobuf/archive/v3.0.0-alpha-4.1.tar.gz
-tar -zxvf release-0_11_1.tar.gz
-tar -zxvf v3.0.0-alpha-4.1.tar.gz
+git clone https://github.com/grpc/grpc.git
+
 mkdir -p /app/dest
 
-# Protobug
-pushd protobuf-3.0.0-alpha-4.1
-./autogen.sh
-./configure
+cd grpc
+git checkout release-0_11_1
+git submodule update --init
+make
 make install prefix=/app/dest
-popd
 
-# Make sure GRPC can find the protobuf libs
-export LD_LIBRARY_PATH="/app/dest/lib/:$LD_LIBRARY_PATH"
-export PATH="/app/dest/bin/:$PATH"
-
-pushd grpc-release-0_11_1
+cd third_party/protobuf
 make install prefix=/app/dest
+
+cd ~
+tar czf grpc.tar.gz -C /app/dest .
 
 # Download
 curl -OL https://raw.githubusercontent.com/scottmotte/srvdir-binary/master/srvdir.tar.gz 
