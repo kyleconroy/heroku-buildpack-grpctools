@@ -35,13 +35,34 @@ export CPPPATH="\$INCLUDE_PATH"
 export PKG_CONFIG_PATH="\$HOME/usr/local/grpc/pkgconfig:\$PKG_CONFIG_PATH"
 EOF
 
+
+if [ -z "$LD_LIBRARY_PATH" ]; then
+    export LD_LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib"
+else
+    export LD_LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib:$LD_LIBRARY_PATH"
+fi
+
+if [ -z "$LIBRARY_PATH" ]; then
+    export LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib"
+else
+    export LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib:$LIBRARY_PATH"
+fi
+
+if [ -z "$INCLUDE_PATH" ]; then
+    export INCLUDE_PATH="$BUILD_DIR/usr/local/grpc/include"
+else
+    export INCLUDE_PATH="$BUILD_DIR/usr/local/grpc/include:$INCLUDE_PATH"
+fi
+
+if [ -z "$PKG_CONFIG_PATH" ]; then
+    export PKG_CONFIG_PATH="$BUILD_DIR/usr/local/grpc/pkgconfig"
+else
+    export PKG_CONFIG_PATH="$BUILD_DIR/usr/local/grpc/pkgconfig:$PKG_CONFIG_PATH"
+fi
+
 export PATH="$BUILD_DIR/usr/local/grpc/bin:$PATH"
-export LD_LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib:$LD_LIBRARY_PATH"
-export LIBRARY_PATH="$BUILD_DIR/usr/local/grpc/lib:$LIBRARY_PATH"
-export INCLUDE_PATH="$BUILD_DIR/usr/local/grpc/include:$INCLUDE_PATH"
 export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
-export PKG_CONFIG_PATH="$BUILD_DIR/usr/local/grpc/pkgconfig:$PKG_CONFIG_PATH"
 
 #give environment to later buildpacks
 export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
