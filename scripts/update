@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euf -o pipefail
+
+# Remove outdated binaries and .proto files
+rm -rf /buildpack/plugins
+
+cp -r /usr/local/bin /buildpack/plugins
+# cp -r /usr/local/include /buildpack/grpc/include

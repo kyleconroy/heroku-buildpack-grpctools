@@ -1,23 +1,20 @@
 #!/usr/bin/env bash
 
-# fail fast
-set -e
+### Configure environment
 
-echo "-----> Installing GRPC 0.11"
+set -euf -o pipefail
+
+### Configure directories
 
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
+BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
-cd $BUILD_DIR
+### Make destnation directories
+mkdir -p "$BUILD_DIR/grpc/bin/"
 
-# download the binary (-O) silently (-s)
-curl -OLs https://github.com/kyleconroy/heroku-buildpack-grpc/releases/download/release-0_11/grpc-release-0_11.tar.gz
+### Copy over binaries
+cp "$BP_DIR/plugins/*" "$BUILD_DIR/grpc/bin"
 
-# make a directory to untar (like unzip) the binary
-mkdir -p .heroku/vendor
-
-# untar the binary to the directory we want
-tar -C .heroku/vendor -xf grpc-release-0_11.tar.gz
-
-rm grpc-release-0_11.tar.gz
+cp "$BP_DIR/grpc.sh" "$BUILD_DIR/.profile.d/grpc.sh 
