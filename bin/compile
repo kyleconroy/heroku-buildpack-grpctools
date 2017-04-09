@@ -15,6 +15,7 @@ BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 mkdir -p "$BUILD_DIR/grpc/bin/"
 
 ### Copy over binaries
+find "$BP_DIR"
 cp "$BP_DIR/plugins/*" "$BUILD_DIR/grpc/bin"
 
 cp "$BP_DIR/grpc.sh" "$BUILD_DIR/.profile.d/grpc.sh 
